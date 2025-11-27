@@ -99,6 +99,7 @@ i {
 .network,
 .memory,
 .cpu,
+.media,
 .battery {
   margin-right: 20px;
 }

@@ -29,11 +29,12 @@
       const providers = zebar.createProviderGroup({
         network: { type: 'network' },
         glazewm: { type: 'glazewm' },
-        cpu: { type: 'cpu' },
+        // cpu: { type: 'cpu' },
         date: { type: 'date', formatting: 'T' },
         battery: { type: 'battery' },
-        memory: { type: 'memory' },
-        weather: { type: 'weather' },
+        // memory: { type: 'memory' },
+        // weather: { type: 'weather' },
+        media: { type: 'media' },
       });
 
       createRoot(document.getElementById('root')).render(<App />);
@@ -149,6 +150,21 @@
             </div>
 
             <div className="right">
+              {output.media?.currentSession && (
+                <div className="media">
+                  {output.media.currentSession.isPlaying && (
+                    <>
+                      <span className="media-icon"></span>
+                      <span className="media-text">
+                        {output.media.currentSession.artist
+                          ? `${output.media.currentSession.artist} – ${output.media.currentSession.title}`
+                          : output.media.currentSession.title}
+                      </span>
+                    </>
+                  )}
+                </div>
+              )}
+
               {output.glazewm && (
                 <>
                   {output.glazewm.isPaused && (
