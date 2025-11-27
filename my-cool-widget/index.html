@@ -26,14 +26,12 @@
       import { createRoot } from 'https://esm.sh/react-dom@18/client?dev';
       import * as zebar from 'https://esm.sh/zebar@3.0';
 
+
       const providers = zebar.createProviderGroup({
         network: { type: 'network' },
         glazewm: { type: 'glazewm' },
-        // cpu: { type: 'cpu' },
         date: { type: 'date', formatting: 'T' },
         battery: { type: 'battery' },
-        // memory: { type: 'memory' },
-        // weather: { type: 'weather' },
         media: { type: 'media' },
       });
 
@@ -41,6 +39,7 @@
 
       function App() {
         const [output, setOutput] = useState(providers.outputMap);
+        const [collapsed, setCollapsed] = useState(false);
 
         useEffect(() => {
           providers.onOutput(() => setOutput(providers.outputMap));
@@ -121,6 +120,11 @@
           }
         }
 
+        function truncate(text, max) {
+          if (!text) return "";
+          return text.length > max ? text.substring(0, max) + "…" : text;
+        }
+
         return (
           <div className="app">
             <div className="left">
@@ -151,14 +155,19 @@
 
             <div className="right">
               {output.media?.currentSession && (
-                <div className="media">
+                <div className="media" onClick={() => setCollapsed(!collapsed)}>
                   {output.media.currentSession.isPlaying && (
                     <>
-                      <span className="media-icon"></span>
-                      <span className="media-text">
-                        {output.media.currentSession.artist
-                          ? `${output.media.currentSession.artist} – ${output.media.currentSession.title}`
-                          : output.media.currentSession.title}
+                      <span className="media-icon">
+                        <i className="nf nf-md-music"></i>
+                      </span>
+                      <span className="media-text" style={{ display: collapsed ? 'none' : 'inline' }}>
+                        {truncate(
+                          output.media.currentSession.artist
+                            ? `${output.media.currentSession.title} • ${output.media.currentSession.artist}`
+                            : output.media.currentSession.title,
+                          50
+                        )}
                       </span>
                     </>
                   )}

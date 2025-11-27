@@ -31,7 +31,7 @@
   --mantle: #1e2030;
   --crust: #181926;
 
-  --bg-translucent: color-mix(in srgb, var(--crust) 0%, transparent);
+  --glass-bg: color-mix(in srgb, var(--crust) 32%, transparent);
 }
 
 html, body {
@@ -67,7 +67,12 @@ i {
   align-items: center;
   height: 100%;
   padding: 4px 0.5vw;
-  padding-bottom: 0px;
+  /* padding-bottom: 0px; */
+  background: var(--glass-bg);
+  backdrop-filter: blur(28px) saturate(1.4) brightness(1.05);
+  -webkit-backdrop-filter: blur(28px) saturate(1.4) brightness(1.05);
+
+  
 }
 
 .left, .center, .right {
@@ -102,6 +107,12 @@ i {
 .media,
 .battery {
   margin-right: 20px;
+}
+
+/* Apply the cursor to the children too, just in case */
+.media,
+.media * {
+  cursor: pointer;
 }
 
 .workspaces {
